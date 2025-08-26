@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: fanreg;
+    src: url('/fonts/FancyCutPro-Regular.woff2');
+}
+
+@font-face {
+    font-family: fanregitalic;
+    src: url('/fonts/FancyCutPro-RegularItalic.woff2');
+}
+
+@font-face {
+    font-family: fanproitalic;
+    src: url('/fonts/FancyCutCondPro-LightItalic.woff2');
+}
+
+@font-face {
+    font-family: fanprolight;
+    src: url('/fonts/FancyCutPro-Light.woff2');
+}
+
+@font-face {
+    font-family: brillipro;
+    src: url('/fonts/BrilliantCutPro-Medium.woff2');
+}
