@@ -87,7 +87,7 @@ const Loader = ({ onComplete }) => {
         ))}
       </div>
 
-      <h3 className="text-xl">{counter}</h3>
+      <h3 className="text-xl font-[fanreg]">{counter}</h3>
     </div>
   );
 };
