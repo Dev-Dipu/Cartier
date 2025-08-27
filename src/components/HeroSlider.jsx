@@ -30,7 +30,7 @@ const videos = [
     },
 ];
 
-const SLIDE_DURATION = 8; // seconds
+const SLIDE_DURATION = 10; // seconds
 
 const HeroSlider = () => {
     const [index, setIndex] = useState(0);
@@ -44,11 +44,17 @@ const HeroSlider = () => {
     const prevSlide = () =>
         setIndex((prev) => (prev - 1 + videos.length) % videos.length);
 
-    // Auto-slide
-    useEffect(() => {
+    // Reset auto-slide
+    const resetInterval = () => {
+        clearInterval(intervalRef.current);
         intervalRef.current = setInterval(() => {
             nextSlide();
         }, SLIDE_DURATION * 1000);
+    };
+
+    // Auto-slide setup
+    useEffect(() => {
+        resetInterval();
         return () => clearInterval(intervalRef.current);
     }, []);
 
@@ -120,7 +126,6 @@ const HeroSlider = () => {
 
     return (
         <div className="hero relative min-h-screen text-white">
-            
             {/* Background videos */}
             <div className="fixed inset-0 -z-10 overflow-hidden">
                 {videos.map((vid, i) => (
@@ -145,7 +150,6 @@ const HeroSlider = () => {
                     <h2 className="text-white">menu</h2>
                 </div>
 
-                {/* Info */}
                 {/* Info */}
                 <div className="absolute top-2/5 px-[8%] w-full">
                     <div className="flex justify-between items-end relative">
@@ -200,7 +204,7 @@ const HeroSlider = () => {
                                     <button
                                         onClick={() => {
                                             prevSlide();
-                                            clearInterval(intervalRef.current);
+                                            resetInterval();
                                         }}
                                     >
                                         <ChevronLeft className="w-6 h-6 cursor-pointer" />
@@ -208,7 +212,7 @@ const HeroSlider = () => {
                                     <button
                                         onClick={() => {
                                             nextSlide();
-                                            clearInterval(intervalRef.current);
+                                            resetInterval();
                                         }}
                                     >
                                         <ChevronRight className="w-6 h-6 cursor-pointer" />
@@ -229,15 +233,12 @@ const HeroSlider = () => {
                 </div>
             </div>
 
-            
-
-
             {/* Tailwind keyframes */}
             <style>{`
-        @keyframes lineFill {
-          from { width: 0% }
-          to { width: 100% }
-        }
+                @keyframes lineFill {
+                  from { width: 0% }
+                  to { width: 100% }
+                }
             `}</style>
         </div>
     );
