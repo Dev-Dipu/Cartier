@@ -17,7 +17,7 @@ const HoverCard = ({ image, caption, title, description }) => {
       </div>
 
       {/* Overlay Content (appears on hover) */}
-      <div className="absolute -translate-y-5 inset-0 flex flex-col items-center justify-center text-center bg-white/95 scale-0 group-hover:scale-80 transition-transform duration-500 z-20">
+      <div className="absolute -translate-y-5 inset-0 flex flex-col items-center justify-center text-center bg-white scale-0 group-hover:scale-80 transition-transform duration-500 z-20">
         <h3 className="text-xl font-semibold font-[fanprolight] uppercase mb-10">{title}</h3>
         <p className="text-gray-600 px-6 font-[fanprolight] leading-none">{description}</p>
       </div>

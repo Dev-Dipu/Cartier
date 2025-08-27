@@ -16,18 +16,22 @@ const Loader = ({ onComplete }) => {
   useEffect(() => {
     const tl = gsap.timeline({
       onComplete: () => {
-        if (onComplete) onComplete(); // callback to parent jab loader complete ho jaye
+        if (onComplete) onComplete();
       },
     });
 
     let obj = { val: 0 };
 
-    // initial state
     gsap.set(imageContainerRef.current.querySelectorAll("img"), {
       y: "100%",
       position: "absolute",
       top: 0,
       left: 0,
+    });
+
+    // initial clip-path (rectangle)
+    gsap.set(".loader", {
+      clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
     });
 
     tl.to(".loader", { opacity: 1, duration: 0.4 })
@@ -54,14 +58,29 @@ const Loader = ({ onComplete }) => {
         },
         ">=+0.2"
       )
-      // loader slide + scale
-      .to(".loader", {
-        y: "75%",
-        scale: 0.84,
-        duration: 0.8,
-        ease: "power3.inOut",
-      })
-      // loader vanish
+      // loader slide + cloth bend
+      .to(
+        ".loader",
+        {
+          y: "75%",
+          scale: 0.84,
+          duration: 0.9,
+          ease: "power3.inOut",
+          clipPath: "polygon(0 0, 100% 0, 95% 100%, 5% 100%)", // bent sides
+        },
+        "slide"
+      )
+      // relax back to straight bottom (cloth release)
+      .to(
+        ".loader",
+        {
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
+          duration: 0.8,
+          ease: "elastic.out(1, 0.4)",
+        },
+        "slide+=0.1"
+      )
+      // vanish
       .to(".loader", {
         opacity: 0,
         duration: 0.002,
@@ -70,7 +89,6 @@ const Loader = ({ onComplete }) => {
 
   return (
     <div className="loader opacity-0 fixed inset-0 flex flex-col gap-12 items-center justify-center bg-[#F5F4F4] z-50">
-
       <img className="logo w-24" src="/images/logo.png" alt="logo" />
 
       <div
