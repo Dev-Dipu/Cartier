@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import LocomotiveScroll from "locomotive-scroll";
 import "locomotive-scroll/dist/locomotive-scroll.css";
+import imageblockdata from './imageblockdata'
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -200,7 +201,7 @@ const App = () => {
                             >
                                 {titles[i]}
                             </h1>
-                            <Grid />
+                            <Grid data={imageblockdata[i]} />
                         </div>
                     ))}
                 </div>
