@@ -21,44 +21,47 @@ const Loader = ({ onComplete }) => {
     });
 
     let obj = { val: 0 };
+    const imgs = imageContainerRef.current.querySelectorAll("img");
 
-    gsap.set(imageContainerRef.current.querySelectorAll("img"), {
-      y: "100%",
+    // Initial state → masked (height = 0 via clip-path)
+    gsap.set(imgs, {
+      clipPath: "inset(100% 0% 0% 0%)",
       position: "absolute",
       top: 0,
       left: 0,
     });
 
-    // initial clip-path (rectangle)
+    // Initial loader state
     gsap.set(".loader", {
       clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
     });
 
     tl.to(".loader", { opacity: 1, duration: 0.4 })
-      .to(".imagediv", { scale: 4, duration: 1.2 }, "same")
-      .to(".loader img.logo", { y: -140, duration: 1.2 }, "same")
-      .to(".loader h3", { y: 140, duration: 1.2 }, "same")
+    .to(".loader img.logo", { y: -140, duration: 1.2, ease: "power3.inOut" }, "same")
+    .to(".loader h3", { y: 140, duration: 1.2, ease: "power3.inOut" }, "same")
+    .to(".imagediv", { scale: 4, delay: 0.4, duration: 1.2 }, "same")
       .to(
         obj,
         {
           val: 365,
           duration: 1.2,
+          ease: "power3.out",
           onUpdate: () => setCounter(Math.floor(obj.val)),
         },
         "same"
       )
-      // images wipe-in
+      // buttery reveal images (mask opens down→up)
       .to(
-        imageContainerRef.current.querySelectorAll("img"),
+        imgs,
         {
-          y: "0%",
-          duration: 0.8,
-          stagger: 0.25,
-          ease: "expo.out",
+          clipPath: "inset(0% 0% 0% 0%)",
+          duration: 1.4,
+          stagger: 0.4,
+          ease: "power4.out",
         },
         ">=-0.2"
       )
-      // loader slide + cloth bend
+      // loader cloth bend
       .to(
         ".loader",
         {
@@ -66,11 +69,11 @@ const Loader = ({ onComplete }) => {
           scale: 0.84,
           duration: 0.9,
           ease: "power3.inOut",
-          clipPath: "polygon(0 0, 100% 0, 40% 100%, 60% 100%)", // bent sides
+          clipPath: "polygon(0 0, 100% 0, 40% 100%, 60% 100%)",
         },
         "slide"
       )
-      // relax back to straight bottom (cloth release)
+      // relax back (cloth release)
       .to(
         ".loader",
         {
@@ -89,8 +92,10 @@ const Loader = ({ onComplete }) => {
 
   return (
     <div className="loader opacity-0 fixed inset-0 flex flex-col gap-12 items-center justify-center bg-[#F5F4F4] z-50">
+      {/* Logo */}
       <img className="logo w-24" src="/images/logo.png" alt="logo" />
 
+      {/* Images container */}
       <div
         ref={imageContainerRef}
         className="imagediv relative h-22 aspect-[3/4] bg-[#c09c54] overflow-hidden"
@@ -105,6 +110,7 @@ const Loader = ({ onComplete }) => {
         ))}
       </div>
 
+      {/* Counter */}
       <h3 className="text-xl font-[fanreg]">{counter}</h3>
     </div>
   );
