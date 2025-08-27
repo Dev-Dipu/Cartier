@@ -154,6 +154,12 @@ const App = () => {
         };
     }, []);
 
+    const titles = [
+        "3 is the MAGIC NUMBER",
+        "The Art of Time",
+        "Jewels of Legacy",
+    ];
+
     return (
         <div className="main text-black relative overflow-hidden">
             {loading && <Loader onComplete={() => setLoading(false)} />}
@@ -192,7 +198,7 @@ const App = () => {
                                 ref={(el) => (subHeadingRefs.current[i] = el)}
                                 className="text-5xl text-center mt-12 font-[fanprolight] will-change-transform opacity-0"
                             >
-                                3 is the MAGIC NUMBER
+                                {titles[i]}
                             </h1>
                             <Grid />
                         </div>
