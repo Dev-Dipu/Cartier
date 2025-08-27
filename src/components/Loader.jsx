@@ -61,27 +61,27 @@ const Loader = ({ onComplete }) => {
         },
         ">=-0.2"
       )
-      // loader cloth bend
+      // Enhanced loader cloth bend - just a bit more dramatic
       .to(
         ".loader",
         {
-          y: "75%",
-          scale: 0.84,
-          duration: 0.9,
-          ease: "power3.inOut",
-          clipPath: "polygon(0 0, 100% 0, 40% 100%, 60% 100%)",
+          y: "75%", // Slight increase from 75%
+          scale: 0.65, // Slight decrease from 0.7
+          duration: 1.8, // Keep it smooth
+          ease: "power3.inOut", // Keep original easing
+          clipPath: "polygon(0 0, 100% 0, 20% 100%, 80% 100%)",
         },
         "slide"
       )
-      // relax back (cloth release)
+      // Enhanced relax back (cloth release)
       .to(
         ".loader",
         {
           clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
-          duration: 0.8,
-          ease: "elastic.out(1, 0.4)",
+          duration: 1.0, // Slightly longer
+          ease: "elastic.out(4, 1.8)", // Just a bit more bounce
         },
-        "slide+=0.2"
+        "slide+=0.25"
       )
       // vanish
       .to(".loader", {
@@ -91,7 +91,7 @@ const Loader = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
-    <div className="loader opacity-0 fixed inset-0 flex flex-col gap-12 items-center justify-center bg-[#F5F4F4] z-50">
+    <div className="loader opacity-0 fixed inset-0 flex flex-col gap-12 items-center justify-center bg-white z-50">
       {/* Logo */}
       <img className="logo w-24" src="/images/logo.png" alt="logo" />
 
