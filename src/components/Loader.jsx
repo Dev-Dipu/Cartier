@@ -53,10 +53,10 @@ const Loader = ({ onComplete }) => {
         {
           y: "0%",
           duration: 0.8,
-          stagger: 0.4,
+          stagger: 0.25,
           ease: "expo.out",
         },
-        ">=+0.2"
+        ">=-0.2"
       )
       // loader slide + cloth bend
       .to(
@@ -66,7 +66,7 @@ const Loader = ({ onComplete }) => {
           scale: 0.84,
           duration: 0.9,
           ease: "power3.inOut",
-          clipPath: "polygon(0 0, 100% 0, 95% 100%, 5% 100%)", // bent sides
+          clipPath: "polygon(0 0, 100% 0, 40% 100%, 60% 100%)", // bent sides
         },
         "slide"
       )
@@ -78,7 +78,7 @@ const Loader = ({ onComplete }) => {
           duration: 0.8,
           ease: "elastic.out(1, 0.4)",
         },
-        "slide+=0.1"
+        "slide+=0.2"
       )
       // vanish
       .to(".loader", {
