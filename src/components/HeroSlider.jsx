@@ -125,14 +125,14 @@ const HeroSlider = () => {
     }, [index]);
 
     return (
-        <div className="hero relative min-h-screen text-white">
+        <div className="hero relative h-screen text-white">
             {/* Background videos */}
-            <div className="fixed inset-0 -z-10 overflow-hidden">
+            <div className="fixed h-full w-full inset-0 -z-10 overflow-hidden">
                 {videos.map((vid, i) => (
                     <video
                         key={i}
                         ref={(el) => (videoRefs.current[i] = el)}
-                        className="absolute inset-0 w-full h-full object-cover"
+                        className="absolute inset-0 w-full object-cover"
                         autoPlay
                         loop
                         muted
