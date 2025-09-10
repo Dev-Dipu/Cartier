@@ -70,6 +70,22 @@ const App = () => {
             },
         });
 
+            // Fade out 'All Chapters' heading on scroll
+            ScrollTrigger.create({
+                scroller: scrollRef.current,
+                trigger: ".allchapters-heading",
+                start: "top 70%",
+                end: "top 66%",
+                scrub: true,
+                // markers: true,
+                onEnter: () => {
+                    document.querySelector(".allchapters-heading").style.opacity = 0;
+                },
+                onLeaveBack: () => {
+                    document.querySelector(".allchapters-heading").style.opacity = 1;
+                },
+            });
+
         // Animate each image block
         imageBlocksRef.current.forEach((block, i) => {
             // Zoom in/out animation
@@ -179,7 +195,7 @@ const App = () => {
                 </div>
                 {/* Fullscreen background div */}
                 <div className="content relative pt-20 -top-66">
-                    <h2 className="uppercase px-[8%] text-[10.5px] text-white font-[brillipro] mb-10">
+                    <h2 className="allchapters-heading uppercase px-[8%] text-[10.5px] text-white font-[brillipro] mb-4" style={{ transition: 'opacity 0.3s' }}>
                         All Chapters
                     </h2>
 
@@ -187,7 +203,7 @@ const App = () => {
                         <div
                             key={i}
                             ref={(el) => (imageBlocksRef.current[i] = el)}
-                            className="imageblock1 min-h-screen w-[84%] mx-auto bg-white pt-2 pb-20 overflow-hidden mb-160"
+                            className="imageblock1  w-[84%] mx-auto bg-white pt-2 pb-20 overflow-hidden mb-160"
                         >
                             <h3
                                 ref={(el) => (headingRefs.current[i] = el)}

@@ -66,7 +66,7 @@ const Loader = ({ onComplete }) => {
         ".loader",
         {
           y: "75%", // Slight increase from 75%
-          scale: 0.65, // Slight decrease from 0.7
+          scale: 0.84, // Slight decrease from 0.7
           duration: 1.8, // Keep it smooth
           ease: "power3.inOut", // Keep original easing
           clipPath: "polygon(0 0, 100% 0, 20% 100%, 80% 100%)",
