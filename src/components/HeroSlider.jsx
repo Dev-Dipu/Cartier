@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Logo365Svg from "/images/logo365.svg";
+import MenuSvg from "/images/menu.svg";
+import Menu from "./Menu";
 
 const videos = [
     {
@@ -34,11 +36,16 @@ const SLIDE_DURATION = 10; // seconds
 
 const HeroSlider = () => {
     const [index, setIndex] = useState(0);
+    const [cursorHidden, setCursorHidden] = useState(false); // 👈 hide/show cursor
+    const [menuOpen, setMenuOpen] = useState(false);    
+
     const videoRefs = useRef([]);
     const smallRefs = useRef([]);
     const headingRef = useRef(null);
     const controlsRef = useRef(null);
     const intervalRef = useRef(null);
+
+    const cursorRef = useRef(null);
 
     const nextSlide = () => setIndex((prev) => (prev + 1) % videos.length);
     const prevSlide = () =>
@@ -124,8 +131,22 @@ const HeroSlider = () => {
         );
     }, [index]);
 
+    // Mouse move effect for cursor
+    useEffect(() => {
+        const moveCursor = (e) => {
+            gsap.to(cursorRef.current, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.3,
+                ease: "power3.out",
+            });
+        };
+        window.addEventListener("mousemove", moveCursor);
+        return () => window.removeEventListener("mousemove", moveCursor);
+    }, []);
+
     return (
-        <div className="hero relative h-screen text-white">
+        <div className="hero relative h-screen text-white cursor-pointer">
             {/* Background videos */}
             <div className="fixed h-full w-full inset-0 -z-10 overflow-hidden">
                 {videos.map((vid, i) => (
@@ -145,9 +166,25 @@ const HeroSlider = () => {
             {/* Foreground */}
             <div className="relative z-10 min-h-screen">
                 {/* Header */}
-                <div className="flex justify-between items-center px-16 py-12">
-                    <img src={Logo365Svg} alt="Logo" className="w-46 invert" />
-                    <h2 className="text-white">menu</h2>
+                <div  className="flex justify-between items-center px-16 py-12">
+                    <img
+                        onClick={() => {
+                            window.location.reload();
+                        }} // reset slider on logo click
+                        onMouseEnter={() => setCursorHidden(true)} // hide cursor
+                        onMouseLeave={() => setCursorHidden(false)} // show cursor
+                        src={Logo365Svg}
+                        alt="Logo"
+                        className="w-46 invert"
+                    />
+                    <img
+                        onClick={() => setMenuOpen((prev) => !prev)}
+                        onMouseEnter={() => setCursorHidden(true)} // hide cursor
+                        onMouseLeave={() => setCursorHidden(false)} // show cursor
+                        className="invert w-4"
+                        src={MenuSvg}
+                        alt="Menu"
+                    />
                 </div>
 
                 {/* Info */}
@@ -186,7 +223,9 @@ const HeroSlider = () => {
                         {/* Controls */}
                         <div
                             ref={controlsRef}
-                            className="aspect-[4/3] flex flex-col justify-end gap-4 relative z-20"
+                            className="aspect-[4/3] flex flex-col justify-end gap-4 relative z-20 pointer-events-auto"
+                            onMouseEnter={() => setCursorHidden(true)} // hide cursor
+                            onMouseLeave={() => setCursorHidden(false)} // show cursor
                         >
                             <div className="flex justify-between items-center">
                                 <div className="flex flex-col w-44">
@@ -231,15 +270,29 @@ const HeroSlider = () => {
                         </div>
                     </div>
                 </div>
+
+                <Menu open={menuOpen} />
+            </div>
+
+            {/* Custom cursor */}
+            <div
+                ref={cursorRef}
+                className={`fixed top-0 left-0 pointer-events-none z-50 transition-opacity duration-300 ${
+                    cursorHidden ? "opacity-0" : "opacity-100"
+                }`}
+            >
+                <div className="border border-white text-white px-4 py-2 text-sm uppercase font-medium">
+                    Read More
+                </div>
             </div>
 
             {/* Tailwind keyframes */}
             <style>{`
-                @keyframes lineFill {
-                  from { width: 0% }
-                  to { width: 100% }
-                }
-            `}</style>
+          @keyframes lineFill {
+            from { width: 0% }
+            to { width: 100% }
+          }
+      `}</style>
         </div>
     );
 };
